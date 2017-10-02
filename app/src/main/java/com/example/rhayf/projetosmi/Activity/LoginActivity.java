@@ -46,7 +46,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        //FacebookSdk.sdkInitialize(getApplicationContext());
         if (BuildConfig.DEBUG) {
             FacebookSdk.setIsDebugEnabled(true);
             FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
@@ -68,10 +68,9 @@ public class LoginActivity extends Activity {
             public void onSuccess(LoginResult loginResult) {
                 Log.d("Sucesso!", "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                Intent i = new Intent(LoginActivity.this, PrincipalActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
+                startActivity(intent);
             }
-
             @Override
             public void onCancel() {}
 
@@ -80,7 +79,6 @@ public class LoginActivity extends Activity {
                 Log.d("ERRO", "facebook:onError", error);
             }
         });
-
 
         //Evento de click do botão logar
         btnLogar.setOnClickListener(new View.OnClickListener() {
@@ -116,29 +114,6 @@ public class LoginActivity extends Activity {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void validarLogin(){
-
-        autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
-        autenticacao.signInWithEmailAndPassword(usuarios.getEmail(), usuarios.getSenha()).
-                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if (task.isSuccessful()){
-
-
-                    abrirTelaPrincipal();
-                    Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT ).show();
-
-                }else {
-                    Toast.makeText(LoginActivity.this, "E-mail ou Senha incorretos!", Toast.LENGTH_SHORT ).show();
-
-                }
-            }
-        });
-    }
-
     private void handleFacebookAccessToken(AccessToken token){
         Log.d("Success", "handleFacebookAccessToken:" + token);
 
@@ -162,6 +137,31 @@ public class LoginActivity extends Activity {
                     }
                 });
     }
+
+
+    private void validarLogin(){
+
+        autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
+        autenticacao.signInWithEmailAndPassword(usuarios.getEmail(), usuarios.getSenha()).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()){
+
+
+                    abrirTelaPrincipal();
+                    Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT ).show();
+
+                }else {
+                    Toast.makeText(LoginActivity.this, "E-mail ou Senha incorretos!", Toast.LENGTH_SHORT ).show();
+
+                }
+            }
+        });
+    }
+
 
     public void abrirTelaPrincipal(){
         Intent intentAbrirTelaPrincipal = new Intent(LoginActivity.this, PrincipalActivity.class);

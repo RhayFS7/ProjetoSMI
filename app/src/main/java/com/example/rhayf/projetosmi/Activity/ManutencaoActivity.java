@@ -1,6 +1,7 @@
 package com.example.rhayf.projetosmi.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class ManutencaoActivity extends Activity {
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerManutencao;
     private Button btnVoltarTelaInicial;
-    private android.support.v7.app.AlertDialog alerta;
+    private AlertDialog alerta;
     private Manutencao manutencaoExcluir;
 
     @Override
@@ -82,7 +83,7 @@ public class ManutencaoActivity extends Activity {
                 manutencaoExcluir = adapter.getItem(i);
 
                 //cria o gerador do alertDialog
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(ManutencaoActivity.this);
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ManutencaoActivity.this);
 
                 //Define o título
                 builder.setTitle("Confirma exclusão?");
